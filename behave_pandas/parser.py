@@ -17,13 +17,10 @@ def _get_column_index(column_rows, nb_cols):
 
 
 def table_to_dataframe(table, column_levels=1, index_levels=0):
-    dtypes = [VALID_DTYPES.get(dtype_name, None) for dtype_name in table.headings]
-
+    dtypes = _get_dtypes(table.headings)
     columns = _get_column_index(table.rows[:column_levels], len(table.headings))
 
-    data = []
-    for row in table.rows[column_levels:]:
-        data.append(_convert_to_correct_type(row, dtypes))
+    data = [_convert_row_to_correct_type(row, dtypes) for row in table.rows[column_levels:]]
 
     bycol = list(zip(*data))
 
@@ -40,7 +37,17 @@ def table_to_dataframe(table, column_levels=1, index_levels=0):
     return df
 
 
-def _convert_to_correct_type(row, dtypes):
+def _get_dtypes(headings):
+    invalid_dtypes = [dtype for dtype in headings if dtype not in VALID_DTYPES]
+
+    if len(invalid_dtypes) > 0:
+        raise TypeError('Invalid dtype(s) detected: {}. '
+                        'Valid values are:\n{} '.format(', '.join(invalid_dtypes), ', '.join(VALID_DTYPES)))
+
+    return [VALID_DTYPES[dtype_name] for dtype_name in headings]
+
+
+def _convert_row_to_correct_type(row, dtypes):
     as_correct_type = []
 
     for col_index, cell in enumerate(row.cells):

@@ -59,7 +59,7 @@ def step_impl(context):
         pd.Series([3.0, 4.1, 5.2], dtype=np.float64),
     ], axis=1)
     pdt.assert_frame_equal(all_dtypes_df, context.parsed)
-    
+
 
 @then("it matches a manually created data frame with all valid datetime dtypes")
 def step_impl(context):
@@ -81,3 +81,18 @@ def step_impl(context):
         pd.Series(['silly walks', 'spanish inquisition', 'dead parrot'], dtype=str),
     ], axis=1)
     pdt.assert_frame_equal(all_dtypes_df, context.parsed)
+
+
+@when("attempting to convert to a data frame using "
+      "{column_levels:d} row as column names and {index_levels:d} column as index")
+def step_impl(context, column_levels, index_levels):
+    try:
+        context.parsed = table_to_dataframe(context.input, column_levels=column_levels, index_levels=index_levels)
+    except TypeError as e:
+        context.exception = e
+
+
+@then("it raises an Exception")
+def step_impl(context):
+    assert isinstance(context.exception, TypeError)
+

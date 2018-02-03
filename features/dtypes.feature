@@ -38,3 +38,13 @@ Feature: dtype support
       | bacon  | dead parrot         |
     When converted to a data frame using 0 row as column names and 0 column as index
     Then it matches a manually created data frame with all valid object dtypes
+
+
+  Scenario: invalid dtypes
+    Given a gherkin table as input
+      | object | invalid             |
+      | egg    | silly walks         |
+      | spam   | spanish inquisition |
+      | bacon  | dead parrot         |
+    When attempting to convert to a data frame using 0 row as column names and 0 column as index
+    Then it raises an Exception
