@@ -5,9 +5,9 @@ from behave_pandas.dtypes import VALID_BOOL_DTYPES, VALID_DTYPES, VALID_INT_DTYP
     VALID_DATETIME_DTYPES, VALID_OBJECT_DTYPES
 
 
-def get_column_index(column_rows):
+def _get_column_index(column_rows, nb_cols):
     if len(column_rows) == 0:
-        return []
+        return range(nb_cols)
     elif len(column_rows) == 1:
         return column_rows[0].cells
     else:
@@ -19,7 +19,7 @@ def get_column_index(column_rows):
 def table_to_dataframe(table, column_levels=1, index_levels=0):
     dtypes = [VALID_DTYPES.get(dtype_name, None) for dtype_name in table.headings]
 
-    columns = get_column_index(table.rows[:column_levels])
+    columns = _get_column_index(table.rows[:column_levels], len(table.headings))
 
     data = []
     for row in table.rows[column_levels:]:
