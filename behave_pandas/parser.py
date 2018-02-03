@@ -11,12 +11,11 @@ def _get_column_index(column_rows, nb_cols):
     elif len(column_rows) == 1:
         return column_rows[0].cells
     else:
-        levels = [pd.Index(row.cells) for row in column_rows]
-        return pd.MultiIndex.from_arrays(levels)
+        return list(zip(*[row.cells for row in column_rows]))
     pass
 
 
-def table_to_dataframe(table, column_levels=1, index_levels=0):
+def table_to_dataframe(table, column_levels=1, index_levels=0, collapse_empty_index_levels=True):
     dtypes = _get_dtypes(table.headings)
     columns = _get_column_index(table.rows[:column_levels], len(table.headings))
 
@@ -32,9 +31,17 @@ def table_to_dataframe(table, column_levels=1, index_levels=0):
     df = pd.concat(series, axis=1)
 
     if index_levels > 0:
-        df.set_index(columns[:index_levels], inplace=True)
+        index_cols = _flatten_index_names_if_needed(collapse_empty_index_levels, column_levels, columns[:index_levels])
+        df.set_index(index_cols, inplace=True)
 
     return df
+
+
+def _flatten_index_names_if_needed(collapse_empty_index_levels, column_levels, index_cols):
+    if collapse_empty_index_levels and column_levels > 1:
+        index_cols = [tuple(v for v in index_col if v != '') for index_col in index_cols]
+        index_cols = [tup[0] if len(tup) == 1 else tup for tup in index_cols]
+    return index_cols
 
 
 def _get_dtypes(headings):

@@ -3,6 +3,8 @@ import pandas as pd
 import pandas.testing as pdt
 import numpy as np
 
+from behave_pandas import table_to_dataframe
+
 use_step_matcher("parse")
 
 
@@ -39,5 +41,67 @@ def step_impl(context):
         ('UK', 4, 8, 13.1, 19.2),
         ('USA', 5, 10, 12.2, 15.7),
     ], columns=col_index)
+
+    pdt.assert_frame_equal(expected_df, context.parsed)
+
+
+@then("it matches a manually created data frame with a multi index on columns and single row index")
+def step_impl(context):
+    col_index = pd.MultiIndex.from_arrays([
+        ['age', 'age', 'height', 'height'],
+        ['min', 'max', 'min', 'max']])
+    row_index = pd.Index(['France', 'UK', 'USA'], name='country', dtype=str)
+
+    expected_df = pd.DataFrame(data=[
+        (3, 9, 15.0, 18.0),
+        (4, 8, 13.1, 19.2),
+        (5, 10, 12.2, 15.7),
+    ], columns=col_index, index=row_index)
+
+    pdt.assert_frame_equal(expected_df, context.parsed)
+
+
+@then("it matches a manually created data frame with a multi index on columns and multi row index")
+def step_impl(context):
+    col_index = pd.MultiIndex.from_arrays([
+        ['age', 'age', 'height', 'height'],
+        ['min', 'max', 'min', 'max']])
+    row_index = pd.MultiIndex.from_tuples([
+        ('France', 'Nantes'), ('France', 'Paris'),
+        ('UK', 'London'), ('UK', 'Manchester')], names=('country', 'city'))
+
+    expected_df = pd.DataFrame(data=[
+        (3, 9, 15.0, 18.0),
+        (5, 11, 16.0, 21.0),
+        (4, 8, 13.1, 19.2),
+        (2, 6, 8.1, 11.2),
+    ], columns=col_index, index=row_index)
+
+    pdt.assert_frame_equal(expected_df, context.parsed)
+
+
+@when("converted to a data frame using {column_levels:d} row as column names "
+      "and {index_levels:d} column as index without flattening index names")
+def step_impl(context, column_levels, index_levels):
+    context.parsed = table_to_dataframe(context.input, column_levels=column_levels, index_levels=index_levels,
+                                        collapse_empty_index_levels=False)
+
+
+@then("it matches a manually created data frame with a multi index on columns "
+      "and multi row index and unflattened index names")
+def step_impl(context):
+    col_index = pd.MultiIndex.from_arrays([
+        ['age', 'age', 'height', 'height'],
+        ['min', 'max', 'min', 'max']])
+    row_index = pd.MultiIndex.from_tuples([
+        ('France', 'Nantes'), ('France', 'Paris'),
+        ('UK', 'London'), ('UK', 'Manchester')], names=(('country', ''), ('city', '')))
+
+    expected_df = pd.DataFrame(data=[
+        (3, 9, 15.0, 18.0),
+        (5, 11, 16.0, 21.0),
+        (4, 8, 13.1, 19.2),
+        (2, 6, 8.1, 11.2),
+    ], columns=col_index, index=row_index)
 
     pdt.assert_frame_equal(expected_df, context.parsed)
