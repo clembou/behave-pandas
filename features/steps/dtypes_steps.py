@@ -73,15 +73,6 @@ def step_impl(context):
     pdt.assert_frame_equal(all_dtypes_df, context.parsed)
 
 
-@when("attempting to convert to a data frame using "
-      "{column_levels:d} row as column names and {index_levels:d} column as index")
-def step_impl(context, column_levels, index_levels):
-    try:
-        context.parsed = table_to_dataframe(context.input, column_levels=column_levels, index_levels=index_levels)
-    except TypeError as e:
-        context.exception = e
-
-
 @then("it raises an Exception")
 def step_impl(context):
     assert isinstance(context.exception, TypeError)
