@@ -3,6 +3,16 @@ Feature: dtype support
   as a tester
   I want to be able to create column for all dtypes supported by pandas
 
+  Scenario: bool dtypes
+    Given a gherkin table as input
+      | bool  |
+      | True  |
+      | False |
+      | true  |
+      | false |
+    When converted to a data frame using 0 row as column names and 0 column as index
+    Then it matches a manually created data frame with all valid boolean dtypes
+
   Scenario: integer dtypes
     Given a gherkin table as input
       | int | int32 | int64 |
@@ -38,7 +48,6 @@ Feature: dtype support
       | bacon  | dead parrot         |
     When converted to a data frame using 0 row as column names and 0 column as index
     Then it matches a manually created data frame with all valid object dtypes
-
 
   Scenario: invalid dtypes
     Given a gherkin table as input

@@ -59,7 +59,7 @@ def _convert_row_to_correct_type(row, dtypes):
 
     for col_index, cell in enumerate(row.cells):
         if dtypes[col_index] in VALID_BOOL_DTYPES.values():
-            as_correct_type.append(dtypes[col_index](cell))
+            as_correct_type.append(parse_bool(cell, dtypes[col_index]))
         elif dtypes[col_index] in VALID_INT_DTYPES.values():
             as_correct_type.append(dtypes[col_index](cell))
         elif dtypes[col_index] in VALID_FLOAT_DTYPES.values():
@@ -76,3 +76,15 @@ def _convert_row_to_correct_type(row, dtypes):
             )
 
     return as_correct_type
+
+
+def parse_bool(cell, dtype):
+    if cell.lower() == 'true':
+        return True
+    elif cell.lower() == 'false':
+        return False
+    elif cell == '':
+        raise ValueError('null values are not supported for boolean columns')
+    else:
+        raise ValueError('{} cannot be parsed as a {}'.format(cell, dtype))
+
