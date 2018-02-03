@@ -12,7 +12,7 @@ def get_column_index(column_rows):
         return column_rows[0].cells
     else:
         levels = [pd.Index(row.cells) for row in column_rows]
-        return pd.MultiIndex(levels)
+        return pd.MultiIndex.from_arrays(levels)
     pass
 
 
@@ -20,14 +20,23 @@ def table_to_dataframe(table, column_levels=1, index_levels=0):
     dtypes = [VALID_DTYPES.get(dtype_name, None) for dtype_name in table.headings]
 
     columns = get_column_index(table.rows[:column_levels])
-    data = []
 
+    data = []
     for row in table.rows[column_levels:]:
         data.append(_convert_to_correct_type(row, dtypes))
 
     bycol = list(zip(*data))
-    series = {col_name: pd.Series(col_data, dtype=dtype) for (col_name, col_data, dtype) in zip(columns, bycol, dtypes)}
-    df = pd.DataFrame(series)
+
+    series = [
+        pd.Series(col_data, dtype=dtype, name=col_name) for (col_name, col_data, dtype) in
+        zip(columns, bycol, dtypes)
+    ]
+
+    df = pd.concat(series, axis=1)
+
+    if index_levels > 0:
+        df.set_index(columns[:index_levels], inplace=True)
+
     return df
 
 
