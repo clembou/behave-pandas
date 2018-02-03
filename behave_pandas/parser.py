@@ -61,13 +61,13 @@ def _convert_row_to_correct_type(row, dtypes):
         if dtypes[col_index] in VALID_BOOL_DTYPES.values():
             as_correct_type.append(parse_bool(cell, dtypes[col_index]))
         elif dtypes[col_index] in VALID_INT_DTYPES.values():
-            as_correct_type.append(dtypes[col_index](cell))
+            as_correct_type.append(parse_integer(cell, dtypes[col_index]))
         elif dtypes[col_index] in VALID_FLOAT_DTYPES.values():
-            as_correct_type.append(dtypes[col_index](cell))
+            as_correct_type.append(parse_dtype(cell, dtypes[col_index]))
         elif dtypes[col_index] in VALID_DATETIME_DTYPES.values():
-            as_correct_type.append(dtypes[col_index](cell))
+            as_correct_type.append(parse_dtype(cell, dtypes[col_index]))
         elif dtypes[col_index] in VALID_OBJECT_DTYPES.values():
-            as_correct_type.append(cell)
+            as_correct_type.append(parse_string(cell))
         else:
             raise Exception(
                 'Unable to convert table element {}. \n'
@@ -88,3 +88,25 @@ def parse_bool(cell, dtype):
     else:
         raise ValueError('{} cannot be parsed as a {}'.format(cell, dtype))
 
+
+def parse_integer(cell, dtype):
+    if cell == '':
+        raise ValueError('null values are not supported for integer columns')
+    else:
+        return dtype(cell)
+
+
+def parse_dtype(cell, dtype):
+    if cell == '':
+        return np.nan
+    else:
+        return dtype(cell)
+
+
+def parse_string(cell):
+    if cell == '':
+        return np.nan
+    elif cell == '""':
+        return ''
+    else:
+        return cell
