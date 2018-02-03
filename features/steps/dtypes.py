@@ -14,12 +14,12 @@ def step_impl(context, ):
     context.input = context.table
 
 
-@when('converted to a data frame using {column_levels:d} row as column names and {index_levels:d} as index')
+@when('converted to a data frame using {column_levels:d} row as column names and {index_levels:d} column as index')
 def step_impl(context, column_levels, index_levels):
     context.parsed = table_to_dataframe(context.input, column_levels=column_levels, index_levels=index_levels)
 
 
-@then("it matches a manually created data frame with correct dtpes")
+@then("it matches a manually created data frame with correct dtypes")
 def step_impl(context):
     all_dtypes_df = pd.DataFrame(data={
         'integer_col': pd.Series([0, 1, 2], dtype=np.int),
