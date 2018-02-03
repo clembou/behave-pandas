@@ -23,6 +23,7 @@ VALID_DATETIME_DTYPES = {
 
 VALID_OBJECT_DTYPES = {
     "object": object,
+    'str': str,
 }
 VALID_DTYPES = {
     **VALID_BOOL_DTYPES,

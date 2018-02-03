@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import dateutil.parser as dup
 from behave_pandas.dtypes import VALID_BOOL_DTYPES, VALID_DTYPES, VALID_INT_DTYPES, VALID_FLOAT_DTYPES, \
-    VALID_DATETIME_DTYPES
+    VALID_DATETIME_DTYPES, VALID_OBJECT_DTYPES
 
 
 def get_column_index(column_rows):
@@ -26,9 +26,9 @@ def table_to_dataframe(table, column_levels=1, index_levels=0):
         data.append(_convert_to_correct_type(row, dtypes))
 
     bycol = list(zip(*data))
-    series = [pd.Series(col_data, dtype=dtype) for (col_data, dtype) in zip(bycol, dtypes)]
-
-    return pd.DataFrame(series, columns=columns)
+    series = {col_name: pd.Series(col_data, dtype=dtype) for (col_name, col_data, dtype) in zip(columns, bycol, dtypes)}
+    df = pd.DataFrame(series)
+    return df
 
 
 def _convert_to_correct_type(row, dtypes):
@@ -43,6 +43,8 @@ def _convert_to_correct_type(row, dtypes):
             as_correct_type.append(dtypes[col_index](cell))
         elif dtypes[col_index] in VALID_DATETIME_DTYPES.values():
             as_correct_type.append(dtypes[col_index](cell))
+        elif dtypes[col_index] in VALID_OBJECT_DTYPES.values():
+            as_correct_type.append(cell)
         else:
             raise Exception(
                 'Unable to convert table element {}. \n'
