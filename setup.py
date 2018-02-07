@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="behave-pandas",
-    version="0.0.1",
+    version="0.1.0.dev1",
     url="https://github.com/clembou/behave-pandas",
 
     author="Clément Bouscasse",
@@ -21,6 +21,7 @@ setuptools.setup(
         'Development Status :: 2 - Pre-Alpha',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
     ],
 )
