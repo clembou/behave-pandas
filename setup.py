@@ -15,7 +15,7 @@ setuptools.setup(
 
     packages=setuptools.find_packages(),
 
-    install_requires=['behave', 'pandas'],
+    install_requires=['behave', 'pandas', 'tabulate'],
 
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
