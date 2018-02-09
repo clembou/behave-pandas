@@ -59,44 +59,46 @@ def _convert_row_to_correct_type(row, dtypes):
 
     for col_index, cell in enumerate(row.cells):
         if dtypes[col_index] in VALID_BOOL_DTYPES.values():
-            as_correct_type.append(parse_bool(cell, dtypes[col_index]))
+            as_correct_type.append(parse_bool(cell, col_index, dtypes[col_index]))
         elif dtypes[col_index] in VALID_INT_DTYPES.values():
-            as_correct_type.append(parse_integer(cell, dtypes[col_index]))
+            as_correct_type.append(parse_integer(cell, col_index, dtypes[col_index]))
         elif dtypes[col_index] in VALID_FLOAT_DTYPES.values():
-            as_correct_type.append(parse_dtype(cell, dtypes[col_index]))
+            as_correct_type.append(parse_dtype(cell, col_index, dtypes[col_index]))
         elif dtypes[col_index] in VALID_DATETIME_DTYPES.values():
-            as_correct_type.append(parse_dtype(cell, dtypes[col_index]))
+            as_correct_type.append(parse_dtype(cell, col_index, dtypes[col_index]))
         elif dtypes[col_index] in VALID_OBJECT_DTYPES.values():
             as_correct_type.append(parse_string(cell))
         else:
             raise Exception(
-                'Unable to convert table element {}. \n'
+                'Unable to convert table element {} on column {}. \n'
                 'Check if the gherkin to pandas dataframe converter '
-                'handles {}'.format(cell, dtypes[col_index])
+                'handles {}'.format(cell, col_index, dtypes[col_index])
             )
 
     return as_correct_type
 
 
-def parse_bool(cell, dtype):
+def parse_bool(cell, col_index, dtype):
     if cell.lower() == 'true':
         return True
     elif cell.lower() == 'false':
         return False
     elif cell == '':
-        raise ValueError('null values are not supported for boolean columns')
+        raise ValueError('null values are not supported for boolean columns. '
+                         'Check column at index {}'.format(col_index))
     else:
         raise ValueError('{} cannot be parsed as a {}'.format(cell, dtype))
 
 
-def parse_integer(cell, dtype):
+def parse_integer(cell, col_index, dtype):
     if cell == '':
-        raise ValueError('null values are not supported for integer columns')
+        raise ValueError('null values are not supported for integer columns. '
+                         'Check column at index {}'.format(col_index))
     else:
         return dtype(cell)
 
 
-def parse_dtype(cell, dtype):
+def parse_dtype(cell, col_index, dtype):
     if cell == '':
         return np.nan
     else:
