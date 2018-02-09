@@ -2,7 +2,7 @@ from tabulate import tabulate
 import pandas as pd
 
 
-def data_frame_to_table(df):
+def dataframe_to_table(df):
     to_format = df.reset_index()
     table_string_df = pd.concat([
         to_format.dtypes.to_frame().T,
