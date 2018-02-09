@@ -105,3 +105,8 @@ def step_impl(context):
     ], columns=col_index, index=row_index)
 
     pdt.assert_frame_equal(expected_df, context.parsed)
+
+
+@then("it matches a similar table definition where index column names have been set on the second row")
+def step_impl(context):
+    pdt.assert_frame_equal(context.parsed, table_to_dataframe(context.table, column_levels=2, index_levels=2))
