@@ -33,10 +33,10 @@ Feature: dtype support
 
   Scenario: datetime dtypes
     Given a gherkin table as input
-      | datetime   | datetime64 |
-      | 2018-02-01 | 2018-02-01 |
-      | 2018-02-02 | 2018-02-02 |
-      | 2018-02-03 | 2018-02-03 |
+      | datetime   | datetime64 | datetime64[ns] |
+      | 2018-02-01 | 2018-02-01 | 2018-02-01     |
+      | 2018-02-02 | 2018-02-02 | 2018-02-02     |
+      | 2018-02-03 | 2018-02-03 | 2018-02-03     |
     When converted to a data frame using 0 row as column names and 0 column as index
     Then it matches a manually created data frame with all valid datetime dtypes
 

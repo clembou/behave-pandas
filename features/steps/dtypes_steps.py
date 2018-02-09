@@ -46,6 +46,9 @@ def step_impl(context):
         pd.Series(
             [datetime.datetime(2018, 2, 1), datetime.datetime(2018, 2, 2), datetime.datetime(2018, 2, 3)],
             dtype=np.datetime64),
+        pd.Series(
+            [datetime.datetime(2018, 2, 1), datetime.datetime(2018, 2, 2), datetime.datetime(2018, 2, 3)],
+            dtype=np.datetime64),
     ], axis=1)
     pdt.assert_frame_equal(all_dtypes_df, context.parsed)
 

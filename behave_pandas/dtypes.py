@@ -19,6 +19,7 @@ VALID_FLOAT_DTYPES = {
 VALID_DATETIME_DTYPES = {
     "datetime": np.datetime64,
     "datetime64": np.datetime64,
+    "datetime64[ns]": np.datetime64,
 }
 
 VALID_OBJECT_DTYPES = {
