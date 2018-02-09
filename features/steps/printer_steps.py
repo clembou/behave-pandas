@@ -1,6 +1,6 @@
 from behave import *
 
-from behave_pandas import data_frame_to_table
+from behave_pandas import dataframe_to_table
 
 use_step_matcher("re")
 
@@ -21,4 +21,4 @@ def step_impl(context):
     """
     :type context: behave.runner.Context
     """
-    context.result = data_frame_to_table(context.parsed)
+    context.result = dataframe_to_table(context.parsed)
