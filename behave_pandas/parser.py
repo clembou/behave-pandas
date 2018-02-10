@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import dateutil.parser as dup
 from behave_pandas.dtypes import VALID_BOOL_DTYPES, VALID_DTYPES, VALID_INT_DTYPES, VALID_FLOAT_DTYPES, \
     VALID_DATETIME_DTYPES, VALID_OBJECT_DTYPES
 
@@ -16,6 +15,21 @@ def _get_column_index(column_rows, nb_cols):
 
 
 def table_to_dataframe(table, column_levels=1, index_levels=0, collapse_empty_index_levels=True):
+    """
+    Given a behave table, convert it to a pandas data frame using the following rules:
+    - valid dtypes must be specified in the table heading
+    - 0 or more rows can be used to label columns (a multi index will be created if column_levels > 1)
+    - 0 or more columns can be used to label columns (a multi index will be created if index_levels > 1)
+    - For tables with multi indexed columns, row index level names will be flattened to a string by default
+    instead of a tuple if needed, unless `collapse_empty_index_levels` is set to False.
+
+    :param table: behave.Table
+    :param column_levels: int
+    :param index_levels: int
+    :param collapse_empty_index_levels: bool
+    :return: pd.DataFrame
+    """
+    if (not isinstance(column_levels, int)) or not (0 <= column_levels <= len(table.rows)):
         raise ValueError('Invalid number of column levels requested. '
                          'Max valid number for this table: {}'.format(len(table.rows)))
 
@@ -58,7 +72,7 @@ def _get_dtypes(headings):
     invalid_dtypes = [dtype for dtype in headings if dtype not in VALID_DTYPES]
 
     if len(invalid_dtypes) > 0:
-        raise TypeError('Invalid dtype(s) detected: {}. '
+        raise TypeError('Invalid dtype(s) detected in the table headings: {}. '
                         'Valid values are:\n{} '.format(', '.join(invalid_dtypes), ', '.join(VALID_DTYPES)))
 
     return [VALID_DTYPES[dtype_name] for dtype_name in headings]
