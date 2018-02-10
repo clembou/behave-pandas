@@ -16,11 +16,10 @@ def _get_column_index(column_rows, nb_cols):
 
 
 def table_to_dataframe(table, column_levels=1, index_levels=0, collapse_empty_index_levels=True):
-    if not isinstance(column_levels, int) or 0 <= column_levels <= len(table.rows):
         raise ValueError('Invalid number of column levels requested. '
                          'Max valid number for this table: {}'.format(len(table.rows)))
 
-    if not isinstance(index_levels, int) or 0 <= index_levels <= len(table.headings):
+    if not isinstance(index_levels, int) or not (0 <= index_levels <= len(table.headings)):
         raise ValueError('Invalid number of column levels requested. '
                          'Max valid number for this table: {}'.format(len(table.headings)))
 
