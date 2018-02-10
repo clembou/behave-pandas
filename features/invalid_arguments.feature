@@ -14,7 +14,7 @@ Feature: dtype support
     Examples:
       | index_levels | column_levels |
       | -1           | 0             |
-      | 0            | 1             |
+      | 0            | -1            |
       | 3            | 0             |
       | 0            | 3             |
       | one          | 0             |
