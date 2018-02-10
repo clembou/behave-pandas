@@ -24,7 +24,7 @@ setuptools.setup(
     install_requires=['behave', 'pandas', 'tabulate'],
 
     classifiers=[
-        'Development Status:: 4 - Beta'
+        'Development Status :: 4 - Beta',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
