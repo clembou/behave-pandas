@@ -22,6 +22,8 @@ def table_to_dataframe(table, column_levels=1, index_levels=0, collapse_empty_in
     data = [_convert_row_to_correct_type(row, dtypes) for row in table.rows[column_levels:]]
 
     bycol = list(zip(*data))
+    if len(bycol) == 0:
+        bycol = [None for col in columns]
 
     series = [
         pd.Series(col_data, dtype=dtype, name=col_name) for (col_name, col_data, dtype) in

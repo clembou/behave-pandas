@@ -48,3 +48,9 @@ Feature: dtype support
       | bacon  |     |
     When converted to a data frame using 0 row as column names and 0 column as index
     Then it matches a manually created data frame with null object data
+
+  Scenario: empty table
+    Given a gherkin table as input
+      | object | str | float | datetime |
+    When converted to a data frame using 0 row as column names and 0 column as index
+    Then it matches a manually created empty data frame

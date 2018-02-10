@@ -61,3 +61,14 @@ def step_impl(context):
 @then("it raises a ValueError exception")
 def step_impl(context):
     assert isinstance(context.exception, ValueError)
+
+
+@then("it matches a manually created empty data frame")
+def step_impl(context):
+    all_dtypes_df = pd.concat([
+        pd.Series(dtype=object),
+        pd.Series(dtype=str),
+        pd.Series(dtype=float),
+        pd.Series(dtype=np.datetime64),
+    ], axis=1)
+    pdt.assert_frame_equal(all_dtypes_df, context.parsed)
