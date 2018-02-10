@@ -10,7 +10,7 @@ except ImportError:
 
 setuptools.setup(
     name="behave-pandas",
-    version="0.1.0.dev2",
+    version="0.1.0",
     url="https://github.com/clembou/behave-pandas",
 
     author="Clément Bouscasse",
@@ -24,7 +24,7 @@ setuptools.setup(
     install_requires=['behave', 'pandas', 'tabulate'],
 
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status:: 4 - Beta'
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.5',
