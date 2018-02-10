@@ -67,8 +67,11 @@ def step_impl(context):
         ['age', 'age', 'height', 'height'],
         ['min', 'max', 'min', 'max']])
     row_index = pd.MultiIndex.from_tuples([
-        ('France', 'Nantes'), ('France', 'Paris'),
-        ('UK', 'London'), ('UK', 'Manchester')], names=('country', 'city'))
+        ('France', 'Nantes'),
+        ('France', 'Paris'),
+        ('UK', 'London'),
+        ('UK', 'Manchester')
+    ], names=('country', 'city'))
 
     expected_df = pd.DataFrame(data=[
         (3, 9, 15.0, 18.0),
@@ -94,8 +97,11 @@ def step_impl(context):
         ['age', 'age', 'height', 'height'],
         ['min', 'max', 'min', 'max']])
     row_index = pd.MultiIndex.from_tuples([
-        ('France', 'Nantes'), ('France', 'Paris'),
-        ('UK', 'London'), ('UK', 'Manchester')], names=(('country', ''), ('city', '')))
+        ('France', 'Nantes'),
+        ('France', 'Paris'),
+        ('UK', 'London'),
+        ('UK', 'Manchester')
+    ], names=(('country', ''), ('city', '')))
 
     expected_df = pd.DataFrame(data=[
         (3, 9, 15.0, 18.0),
@@ -110,3 +116,26 @@ def step_impl(context):
 @then("it matches a similar table definition where index column names have been set on the second row")
 def step_impl(context):
     pdt.assert_frame_equal(context.parsed, table_to_dataframe(context.table, column_levels=2, index_levels=2))
+
+
+@then(
+    "it matches a manually created data frame with a multi index on columns and multi row index and complex column name combination")
+def step_impl(context):
+    col_index = pd.MultiIndex.from_arrays([
+        ['age', 'height', 'height'],
+        ['max', 'min', 'max']])
+    row_index = pd.MultiIndex.from_tuples([
+        ('France', 'Nantes', 3),
+        ('France', 'Paris', 5),
+        ('UK', 'London', 4),
+        ('UK', 'Manchester', 2)
+    ], names=(('country', ''), ('city', ''), ('age', '')))
+
+    expected_df = pd.DataFrame(data=[
+        (9, 15.0, 18.0),
+        (11, 16.0, 21.0),
+        (8, 13.1, 19.2),
+        (6, 8.1, 11.2),
+    ], columns=col_index, index=row_index)
+
+    pdt.assert_frame_equal(expected_df, context.parsed)

@@ -31,8 +31,9 @@ def table_to_dataframe(table, column_levels=1, index_levels=0, collapse_empty_in
     df = pd.concat(series, axis=1)
 
     if index_levels > 0:
-        index_cols = _flatten_index_names_if_needed(collapse_empty_index_levels, column_levels, columns[:index_levels])
+        index_cols = columns[:index_levels]
         df.set_index(index_cols, inplace=True)
+        df.index.names = _flatten_index_names_if_needed(collapse_empty_index_levels, column_levels, index_cols)
 
     return df
 
