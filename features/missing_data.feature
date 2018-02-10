@@ -1,7 +1,7 @@
 Feature: dtype support
 
   as a tester
-  I want to be able to create column for all dtypes supported by pandas
+  I want to be able to create columns with missing data where supported by pandas
 
   Scenario: bool dtypes
     Given a gherkin table as input

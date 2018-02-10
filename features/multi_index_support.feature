@@ -1,7 +1,7 @@
 Feature: multi index support
 
   as a tester
-  I want to be able to create data frame with a specific index
+  I want to be able to create data frame with a specific index with a configurable number of levels
 
   Scenario: simple index
     Given a gherkin table as input
