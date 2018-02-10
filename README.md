@@ -4,6 +4,7 @@ Utility package for the [Behave](https://github.com/behave/behave) BDD testing f
 to and from [pandas](https://github.com/pandas-dev/pandas) data frames a breeze.
 
 ## Build Status
+![Travis CI badge](https://travis-ci.org/clembou/behave-pandas.svg?branch=master)
 
 ## Installation
 
