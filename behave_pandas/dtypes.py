@@ -26,6 +26,7 @@ VALID_OBJECT_DTYPES = {
     "object": object,
     'str': str,
 }
+
 VALID_DTYPES = {
     **VALID_BOOL_DTYPES,
     **VALID_INT_DTYPES,
