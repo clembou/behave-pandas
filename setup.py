@@ -1,13 +1,5 @@
 import setuptools
 
-try:
-    from pypandoc import convert
-
-    read_md = lambda f: convert(f, 'rst')
-except ImportError:
-    print("warning: pypandoc module not found, could not convert Markdown to RST")
-    read_md = lambda f: open(f, 'r').read()
-
 setuptools.setup(
     name="behave-pandas",
     version="0.1.0",
@@ -17,7 +9,8 @@ setuptools.setup(
     author_email="clement.bouscasse@gmail.com",
 
     description="Provides helper functions to help converting behave tables into pandas dataframes and vice versa.",
-    long_description=read_md('README.md'),
+    long_description=open('README.md', 'r').read(),
+    long_description_content_type='text/markdown',
 
     packages=setuptools.find_packages(),
 
