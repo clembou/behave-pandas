@@ -27,10 +27,20 @@ VALID_OBJECT_DTYPES = {
     'str': str,
 }
 
+VALID_DICT_DTYPES = {
+    "dict": object,
+}
+
+VALID_LIST_DTYPES = {
+    "list": object,
+}
+
 VALID_DTYPES = {
     **VALID_BOOL_DTYPES,
     **VALID_INT_DTYPES,
     **VALID_FLOAT_DTYPES,
     **VALID_DATETIME_DTYPES,
     **VALID_OBJECT_DTYPES,
+    **VALID_DICT_DTYPES,
+    **VALID_LIST_DTYPES
 }

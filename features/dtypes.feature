@@ -42,10 +42,10 @@ Feature: dtype support
 
   Scenario: object dtypes
     Given a gherkin table as input
-      | object | str                 |
-      | egg    | silly walks         |
-      | spam   | spanish inquisition |
-      | bacon  | dead parrot         |
+      | object | str                 | dict        | list  |
+      | egg    | silly walks         | {}          | []    |
+      | spam   | spanish inquisition | {"a": None} | [1]   |
+      | bacon  | dead parrot         | {"a": []}   | ["a"] |
     When converted to a data frame using 0 row as column names and 0 column as index
     Then it matches a manually created data frame with all valid object dtypes
 

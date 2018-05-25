@@ -54,6 +54,8 @@ def step_impl(context):
     all_dtypes_df = pd.concat([
         pd.Series(['egg', np.nan, 'bacon'], dtype=object),
         pd.Series([np.nan, np.nan, np.nan], dtype=str),
+        pd.Series([np.nan, np.nan, np.nan], dtype=object),
+        pd.Series([np.nan, np.nan, np.nan], dtype=object),
     ], axis=1)
     pdt.assert_frame_equal(all_dtypes_df, context.parsed)
 
@@ -70,5 +72,7 @@ def step_impl(context):
         pd.Series(dtype=str),
         pd.Series(dtype=float),
         pd.Series(dtype=np.datetime64),
+        pd.Series(dtype=object),
+        pd.Series(dtype=object),
     ], axis=1)
     pdt.assert_frame_equal(all_dtypes_df, context.parsed)
