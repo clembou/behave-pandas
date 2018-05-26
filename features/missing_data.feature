@@ -43,7 +43,7 @@ Feature: dtype support
   Scenario: object dtypes
     Given a gherkin table as input
       | object | str | dict | list |
-      | egg    |     |      |      |
+      | egg    | egg |      |      |
       |        |     |      |      |
       | bacon  |     |      |      |
     When converted to a data frame using 0 row as column names and 0 column as index

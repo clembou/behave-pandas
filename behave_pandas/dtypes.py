@@ -25,13 +25,7 @@ VALID_DATETIME_DTYPES = {
 VALID_OBJECT_DTYPES = {
     "object": object,
     'str': str,
-}
-
-VALID_DICT_DTYPES = {
     "dict": object,
-}
-
-VALID_LIST_DTYPES = {
     "list": object,
 }
 
@@ -41,6 +35,4 @@ VALID_DTYPES = {
     **VALID_FLOAT_DTYPES,
     **VALID_DATETIME_DTYPES,
     **VALID_OBJECT_DTYPES,
-    **VALID_DICT_DTYPES,
-    **VALID_LIST_DTYPES
 }

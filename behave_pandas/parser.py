@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 import ast
 from behave_pandas.dtypes import VALID_BOOL_DTYPES, VALID_DTYPES, VALID_INT_DTYPES, VALID_FLOAT_DTYPES, \
-    VALID_DATETIME_DTYPES, VALID_OBJECT_DTYPES, VALID_DICT_DTYPES, VALID_LIST_DTYPES
+    VALID_DATETIME_DTYPES, VALID_OBJECT_DTYPES
 
 
 def _get_column_index(column_rows, nb_cols):
@@ -91,9 +91,9 @@ def _convert_row_to_correct_type(row, dtypes):
             as_correct_type.append(parse_dtype(cell, col_index, dtypes[col_index]))
         elif dtypes[col_index] in VALID_DATETIME_DTYPES.values():
             as_correct_type.append(parse_dtype(cell, col_index, dtypes[col_index]))
-        elif dtypes[col_index] in VALID_DICT_DTYPES.values() and row.headings[col_index] == 'dict':
+        elif dtypes[col_index] in VALID_OBJECT_DTYPES.values() and row.headings[col_index] == 'dict':
             as_correct_type.append(parse_dict(cell))
-        elif dtypes[col_index] in VALID_LIST_DTYPES.values() and row.headings[col_index] == 'list':
+        elif dtypes[col_index] in VALID_OBJECT_DTYPES.values() and row.headings[col_index] == 'list':
             as_correct_type.append(parse_list(cell))
         elif dtypes[col_index] in VALID_OBJECT_DTYPES.values():
             as_correct_type.append(parse_string(cell))
