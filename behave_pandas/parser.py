@@ -144,14 +144,14 @@ def parse_string(cell):
 
 
 def parse_dict(cell):
-    if cell == '' or cell == '""':
+    if cell == '':
         return np.nan
     else:
         return ast.literal_eval(cell)
 
 
 def parse_list(cell):
-    if cell == '' or cell == '""':
+    if cell == '':
         return np.nan
     else:
         return ast.literal_eval(cell)
