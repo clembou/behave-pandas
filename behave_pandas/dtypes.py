@@ -24,7 +24,7 @@ VALID_DATETIME_DTYPES = {
 
 VALID_OBJECT_DTYPES = {
     "object": object,
-    'str': str,
+    'str': object,
     "dict": object,
     "list": object,
 }
