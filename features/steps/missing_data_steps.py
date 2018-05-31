@@ -53,7 +53,7 @@ def step_impl(context):
 def step_impl(context):
     all_dtypes_df = pd.concat([
         pd.Series(['egg', np.nan, 'bacon'], dtype=object),
-        pd.Series(['egg', np.nan, np.nan], dtype=str),
+        pd.Series([np.nan, np.nan, np.nan], dtype=str),
         pd.Series([np.nan, np.nan, np.nan], dtype=object),
         pd.Series([np.nan, np.nan, np.nan], dtype=object),
     ], axis=1)
