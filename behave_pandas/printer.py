@@ -1,7 +1,7 @@
 from tabulate import tabulate
 import pandas as pd
 
-from behave_pandas.dtypes import VALID_FLOAT_DTYPES, VALID_DATETIME_DTYPES
+from behave_pandas.dtypes import VALID_FLOAT_DTYPES, VALID_DATETIME_DTYPES, VALID_OBJECT_DTYPES
 
 
 def dataframe_to_table(df):
@@ -14,7 +14,8 @@ def dataframe_to_table(df):
     cols_with_potential_nones = to_format.select_dtypes('object').columns
     to_format.loc[:, cols_with_potential_nones] = to_format.loc[:, cols_with_potential_nones].fillna('')
 
-    cols_with_potential_nans = [col for col, dtype in to_format.dtypes.iteritems() if str(dtype) in VALID_FLOAT_DTYPES.keys()]
+    cols_with_potential_nans = [col for col, dtype in to_format.dtypes.iteritems() if
+                                str(dtype) in VALID_FLOAT_DTYPES.keys() or str(dtype) in VALID_OBJECT_DTYPES]
     cols_with_potential_nats = [col for col, dtype in to_format.dtypes.iteritems() if str(dtype) in VALID_DATETIME_DTYPES.keys()]
 
     as_string = to_format.astype(str)

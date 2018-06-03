@@ -42,15 +42,15 @@ Feature: dtype support
 
   Scenario: object dtypes
     Given a gherkin table as input
-      | object | str |
-      | egg    |     |
-      |        |     |
-      | bacon  |     |
+      | object | str | dict | list |
+      | egg    |     |      |      |
+      |        |     |      |      |
+      | bacon  |     |      |      |
     When converted to a data frame using 0 row as column names and 0 column as index
     Then it matches a manually created data frame with null object data
 
   Scenario: empty table
     Given a gherkin table as input
-      | object | str | float | datetime |
+      | object | str | float | datetime | dict | list |
     When converted to a data frame using 0 row as column names and 0 column as index
     Then it matches a manually created empty data frame

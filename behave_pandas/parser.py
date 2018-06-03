@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import ast
 from behave_pandas.dtypes import VALID_BOOL_DTYPES, VALID_DTYPES, VALID_INT_DTYPES, VALID_FLOAT_DTYPES, \
     VALID_DATETIME_DTYPES, VALID_OBJECT_DTYPES
 
@@ -90,6 +91,10 @@ def _convert_row_to_correct_type(row, dtypes):
             as_correct_type.append(parse_dtype(cell, col_index, dtypes[col_index]))
         elif dtypes[col_index] in VALID_DATETIME_DTYPES.values():
             as_correct_type.append(parse_dtype(cell, col_index, dtypes[col_index]))
+        elif dtypes[col_index] in VALID_OBJECT_DTYPES.values() and row.headings[col_index] == 'dict':
+            as_correct_type.append(parse_dict(cell))
+        elif dtypes[col_index] in VALID_OBJECT_DTYPES.values() and row.headings[col_index] == 'list':
+            as_correct_type.append(parse_list(cell))
         elif dtypes[col_index] in VALID_OBJECT_DTYPES.values():
             as_correct_type.append(parse_string(cell))
         else:
@@ -136,3 +141,17 @@ def parse_string(cell):
         return ''
     else:
         return cell
+
+
+def parse_dict(cell):
+    if cell == '':
+        return np.nan
+    else:
+        return ast.literal_eval(cell)
+
+
+def parse_list(cell):
+    if cell == '':
+        return np.nan
+    else:
+        return ast.literal_eval(cell)

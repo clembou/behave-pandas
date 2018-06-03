@@ -58,6 +58,8 @@ def step_impl(context):
     all_dtypes_df = pd.concat([
         pd.Series(['egg', 'spam', 'bacon'], dtype=object),
         pd.Series(['silly walks', 'spanish inquisition', 'dead parrot'], dtype=str),
+        pd.Series([{}, {"a": None}, {"a": []}], dtype=object),
+        pd.Series([[], [1], ["a"]], dtype=object),
     ], axis=1)
     pdt.assert_frame_equal(all_dtypes_df, context.parsed)
 
