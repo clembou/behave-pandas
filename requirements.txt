@@ -1,4 +1,4 @@
 -e .
 
 # dev dependencies
-black
+black; python_version >= '3.6.0'
