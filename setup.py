@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="behave-pandas",
-    version="0.2.0",
+    version="0.3.0",
     url="https://github.com/clembou/behave-pandas",
     author="Clément Bouscasse",
     author_email="clement.bouscasse@gmail.com",

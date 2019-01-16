@@ -6,12 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
- -added support for `OrderedDict` objects (#10)
 
 ### Changed
 
 ### Removed
 
+## [0.3.0] - 2019-01-16
+ -added support for `OrderedDict` objects (#10)
+- add explicit support for python 3.7 (#11)
+- format files using black (#12)
 
 ## [0.2.0] - 2018-06-03
 ### Changed
@@ -24,6 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - First release 🎉
 
-[Unreleased]: https://github.com/clembou/behave-pandas/compare/release/v0.1.0...HEAD
+[Unreleased]: https://github.com/clembou/behave-pandas/compare/release/v0.3.0...HEAD
+[0.3.0]: https://github.com/clembou/behave-pandas/commit/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/clembou/behave-pandas/commit/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/clembou/behave-pandas/commit/v0.1.0
