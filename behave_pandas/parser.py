@@ -1,3 +1,5 @@
+from collections import OrderedDict
+
 import pandas as pd
 import numpy as np
 import ast
@@ -95,6 +97,8 @@ def _convert_row_to_correct_type(row, dtypes):
             as_correct_type.append(parse_dict(cell))
         elif dtypes[col_index] in VALID_OBJECT_DTYPES.values() and row.headings[col_index] == 'list':
             as_correct_type.append(parse_list(cell))
+        elif dtypes[col_index] in VALID_OBJECT_DTYPES.values() and row.headings[col_index] == 'OrderedDict':
+            as_correct_type.append(parse_ordered_dict(cell))
         elif dtypes[col_index] in VALID_OBJECT_DTYPES.values():
             as_correct_type.append(parse_string(cell))
         else:
@@ -155,3 +159,11 @@ def parse_list(cell):
         return np.nan
     else:
         return ast.literal_eval(cell)
+
+
+def parse_ordered_dict(cell):
+    if cell == '':
+        return np.nan
+    else:
+        cell_cleaned = cell.replace("OrderedDict(", "").rstrip(")")
+        return OrderedDict(ast.literal_eval(cell_cleaned))

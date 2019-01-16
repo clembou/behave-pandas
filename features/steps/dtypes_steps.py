@@ -1,4 +1,6 @@
 import datetime
+from collections import OrderedDict
+
 from behave import *
 from behave_pandas import table_to_dataframe
 
@@ -60,6 +62,8 @@ def step_impl(context):
         pd.Series(['silly walks', 'spanish inquisition', 'dead parrot'], dtype=str),
         pd.Series([{}, {"a": None}, {"a": []}], dtype=object),
         pd.Series([[], [1], ["a"]], dtype=object),
+        pd.Series([OrderedDict([]), OrderedDict([("a", 1),("b", None)]), OrderedDict([("a", 1),("b", [])])], dtype=object),
+        pd.Series([OrderedDict([]), OrderedDict([("a", 1),("b", None)]), OrderedDict([("a", 1),("b", [])])], dtype=object),
     ], axis=1)
     pdt.assert_frame_equal(all_dtypes_df, context.parsed)
 
