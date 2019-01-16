@@ -27,6 +27,7 @@ VALID_OBJECT_DTYPES = {
     'str': object,
     "dict": object,
     "list": object,
+    "OrderedDict": object
 }
 
 VALID_DTYPES = {
