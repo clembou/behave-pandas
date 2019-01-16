@@ -1,2 +1,4 @@
-behave
 -e .
+
+# dev dependencies
+black
