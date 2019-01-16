@@ -207,4 +207,6 @@ def parse_ordered_dict(cell):
         return np.nan
     else:
         cell_cleaned = cell.replace("OrderedDict(", "").rstrip(")")
+        if cell_cleaned == "":
+            return OrderedDict()
         return OrderedDict(ast.literal_eval(cell_cleaned))
