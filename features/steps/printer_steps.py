@@ -7,6 +7,8 @@ use_step_matcher("re")
 
 @then("it prints a valid string copy pasteable into gherkin files")
 def step_impl(context):
+    print(context.text)
+    print(context.result)
     assert context.result == context.text
 
 
