@@ -1,3 +1,4 @@
+@skip.before.pandasv1
 Feature: dtype support for new nullable dtypes in pandas 1.0
 
   as a tester
