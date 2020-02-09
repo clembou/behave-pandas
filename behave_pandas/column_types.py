@@ -79,6 +79,9 @@ class LegacyIntegerColumnParser(ColumnParser):
 
 
 class NullableIntegerColumnParser(ColumnParser):
+    def __init__(self):
+        super().__init__("Int64")
+
     def parse_value(self, cell):
         if cell == "":
             return pd.NA
@@ -196,7 +199,7 @@ VALID_OBJECT_TYPES = {
 # new nullable type from pandas 1.0
 VALID_NULLABLE_TYPES = {
     "boolean": NullableBooleanColumnParser(),
-    "Int64": NullableIntegerColumnParser("Int64"),
+    "Int64": NullableIntegerColumnParser(),
     "string": StringColumnParser(),
 }
 
