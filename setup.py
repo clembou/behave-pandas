@@ -2,7 +2,7 @@ import setuptools
 
 setuptools.setup(
     name="behave-pandas",
-    version="0.3.0",
+    version="1.0.0-dev",
     url="https://github.com/clembou/behave-pandas",
     author="Clément Bouscasse",
     author_email="clement.bouscasse@gmail.com",
@@ -10,7 +10,7 @@ setuptools.setup(
     long_description=open("README.md", "r").read(),
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
-    install_requires=["behave", "pandas", "tabulate"],
+    install_requires=["behave", "pandas>=0.21", "tabulate"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Programming Language :: Python",
@@ -18,6 +18,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
     license="MIT",
     keywords="behave pandas testing bdd",
