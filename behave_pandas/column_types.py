@@ -25,7 +25,7 @@ class DatetimeColumnParser(ColumnParser):
 
 class LegacyStringColumnParser(ColumnParser):
     def __init__(self):
-        super().__init__("str")
+        super().__init__("object")
 
     def parse_value(self, cell):
         if cell == "":
