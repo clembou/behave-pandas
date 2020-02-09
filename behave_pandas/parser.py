@@ -1,15 +1,9 @@
-from collections import OrderedDict
+from typing import Iterable
 
 import pandas as pd
-import numpy as np
-import ast
 from behave_pandas.column_types import (
-    VALID_BOOL_TYPES,
     VALID_COLUMN_TYPES,
-    VALID_INT_TYPES,
-    VALID_FLOAT_TYPES,
-    VALID_DATETIME_TYPES,
-    VALID_OBJECT_TYPES,
+    ColumnParser,
 )
 
 
@@ -28,7 +22,7 @@ def table_to_dataframe(
 ):
     """
     Given a behave table, convert it to a pandas data frame using the following rules:
-    - valid dtypes must be specified in the table heading
+    - valid column types must be specified in the table heading
     - 0 or more rows can be used to label columns (a multi index will be created if column_levels > 1)
     - 0 or more columns can be used to label columns (a multi index will be created if index_levels > 1)
     - For tables with multi indexed columns, row index level names will be flattened to a string by default
@@ -56,11 +50,12 @@ def table_to_dataframe(
             "Max valid number for this table: {}".format(len(table.headings))
         )
 
-    dtypes = _get_column_types(table.headings)
+    column_types = _get_column_types(table.headings)
     columns = _get_column_index(table.rows[:column_levels], len(table.headings))
 
     data = [
-        _convert_row_to_correct_type(row, dtypes) for row in table.rows[column_levels:]
+        _convert_row_to_correct_type(row, column_types)
+        for row in table.rows[column_levels:]
     ]
 
     bycol = list(zip(*data))
@@ -68,8 +63,8 @@ def table_to_dataframe(
         bycol = [None for col in columns]
 
     series = [
-        pd.Series(col_data, dtype=dtype, name=col_name)
-        for (col_name, col_data, dtype) in zip(columns, bycol, dtypes)
+        pd.Series(col_data, dtype=column_type.pandas_dtype_name, name=col_name)
+        for (col_name, col_data, column_type) in zip(columns, bycol, column_types)
     ]
 
     df = pd.concat(series, axis=1)
@@ -96,7 +91,9 @@ def _flatten_index_names_if_needed(
 
 
 def _get_column_types(headings):
-    invalid_column_type = [column_type for column_type in headings if column_type not in VALID_COLUMN_TYPES]
+    invalid_column_type = [
+        column_type for column_type in headings if column_type not in VALID_COLUMN_TYPES
+    ]
 
     if len(invalid_column_type) > 0:
         raise TypeError(
@@ -109,104 +106,11 @@ def _get_column_types(headings):
     return [VALID_COLUMN_TYPES[column_type_name] for column_type_name in headings]
 
 
-def _convert_row_to_correct_type(row, dtypes):
+def _convert_row_to_correct_type(row, column_types: Iterable[ColumnParser]):
     as_correct_type = []
 
     for col_index, cell in enumerate(row.cells):
-        if dtypes[col_index] in VALID_BOOL_TYPES.values():
-            as_correct_type.append(parse_bool(cell, col_index, dtypes[col_index]))
-        elif dtypes[col_index] in VALID_INT_TYPES.values():
-            as_correct_type.append(parse_integer(cell, col_index, dtypes[col_index]))
-        elif dtypes[col_index] in VALID_FLOAT_TYPES.values():
-            as_correct_type.append(parse_dtype(cell, col_index, dtypes[col_index]))
-        elif dtypes[col_index] in VALID_DATETIME_TYPES.values():
-            as_correct_type.append(parse_dtype(cell, col_index, dtypes[col_index]))
-        elif (
-                dtypes[col_index] in VALID_OBJECT_TYPES.values()
-                and row.headings[col_index] == "dict"
-        ):
-            as_correct_type.append(parse_dict(cell))
-        elif (
-                dtypes[col_index] in VALID_OBJECT_TYPES.values()
-                and row.headings[col_index] == "list"
-        ):
-            as_correct_type.append(parse_list(cell))
-        elif (
-                dtypes[col_index] in VALID_OBJECT_TYPES.values()
-                and row.headings[col_index] == "OrderedDict"
-        ):
-            as_correct_type.append(parse_ordered_dict(cell))
-        elif dtypes[col_index] in VALID_OBJECT_TYPES.values():
-            as_correct_type.append(parse_string(cell))
-        else:
-            raise Exception(
-                "Unable to convert table element {} on column {}. \n"
-                "Check if the gherkin to pandas dataframe converter "
-                "handles {}".format(cell, col_index, dtypes[col_index])
-            )
+        parser = column_types[col_index]
+        as_correct_type.append(parser.parse_value(cell))
 
     return as_correct_type
-
-
-def parse_bool(cell, col_index, dtype):
-    if cell.lower() == "true":
-        return True
-    elif cell.lower() == "false":
-        return False
-    elif cell == "":
-        raise ValueError(
-            "null values are not supported for boolean columns. "
-            "Check column at index {}".format(col_index)
-        )
-    else:
-        raise ValueError("{} cannot be parsed as a {}".format(cell, dtype))
-
-
-def parse_integer(cell, col_index, dtype):
-    if cell == "":
-        raise ValueError(
-            "null values are not supported for integer columns. "
-            "Check column at index {}".format(col_index)
-        )
-    else:
-        return dtype(cell)
-
-
-def parse_dtype(cell, col_index, dtype):
-    if cell == "":
-        return np.nan
-    else:
-        return dtype(cell)
-
-
-def parse_string(cell):
-    if cell == "":
-        return np.nan
-    elif cell == '""':
-        return ""
-    else:
-        return cell
-
-
-def parse_dict(cell):
-    if cell == "":
-        return np.nan
-    else:
-        return ast.literal_eval(cell)
-
-
-def parse_list(cell):
-    if cell == "":
-        return np.nan
-    else:
-        return ast.literal_eval(cell)
-
-
-def parse_ordered_dict(cell):
-    if cell == "":
-        return np.nan
-    else:
-        cell_cleaned = cell.replace("OrderedDict(", "").rstrip(")")
-        if cell_cleaned == "":
-            return OrderedDict()
-        return OrderedDict(ast.literal_eval(cell_cleaned))
