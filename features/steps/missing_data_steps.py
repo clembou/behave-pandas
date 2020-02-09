@@ -51,9 +51,9 @@ def step_impl(context):
         [
             pd.Series(
                 [datetime.datetime(2018, 2, 1), np.nan, datetime.datetime(2018, 2, 3)],
-                dtype=np.datetime64,
+                dtype="datetime64[ns]",
             ),
-            pd.Series([np.nan, np.nan, np.nan], dtype=np.datetime64),
+            pd.Series([np.nan, np.nan, np.nan], dtype="datetime64[ns]"),
         ],
         axis=1,
     )
@@ -86,7 +86,7 @@ def step_impl(context):
             pd.Series(dtype=object),
             pd.Series(dtype=str),
             pd.Series(dtype=float),
-            pd.Series(dtype=np.datetime64),
+            pd.Series(dtype="datetime64[ns]"),
             pd.Series(dtype=object),
             pd.Series(dtype=object),
         ],

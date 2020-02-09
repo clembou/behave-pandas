@@ -55,7 +55,7 @@ def step_impl(context):
                     datetime.datetime(2018, 2, 2),
                     datetime.datetime(2018, 2, 3),
                 ],
-                dtype=np.datetime64,
+                dtype="datetime64[ns]",
             ),
             pd.Series(
                 [
@@ -63,7 +63,7 @@ def step_impl(context):
                     datetime.datetime(2018, 2, 2),
                     datetime.datetime(2018, 2, 3),
                 ],
-                dtype=np.datetime64,
+                dtype="datetime64[ns]",
             ),
             pd.Series(
                 [
@@ -71,7 +71,7 @@ def step_impl(context):
                     datetime.datetime(2018, 2, 2),
                     datetime.datetime(2018, 2, 3),
                 ],
-                dtype=np.datetime64,
+                dtype="datetime64[ns]",
             ),
         ],
         axis=1,
