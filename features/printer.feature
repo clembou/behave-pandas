@@ -38,3 +38,23 @@ Feature: Table printer
     | spam      | 4.1       |             | 2018-02-03     | {'a': 1}  |          |                          |                          |
     | bacon     | 5.2       | dead parrot |                | {'a': []} | [1]      | OrderedDict([('a', [])]) | OrderedDict([('a', [])]) |
     """
+
+  @skip.before.pandasv1
+  Scenario: round trip new nullable types from pandas v1.0
+    Given a gherkin table as input
+      | object    | boolean     | string      | Int64       |
+      | index_col | boolean_col | string_col  | integer_col |
+      | egg       |             | silly walks | 42          |
+      | spam      | False       |             | 23          |
+      | bacon     | True        | dead parrot |             |
+
+    When converted to a data frame using 1 row as column names and 1 column as index
+    And printed using data_frame_to_table
+    Then it prints a valid string copy pasteable into gherkin files
+    """
+    | object    | boolean     | string      | Int64       |
+    | index_col | boolean_col | string_col  | integer_col |
+    | egg       |             | silly walks | 42          |
+    | spam      | False       |             | 23          |
+    | bacon     | True        | dead parrot |             |
+    """

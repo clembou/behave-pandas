@@ -165,16 +165,12 @@ class ObjectColumnParser(ColumnParser):
 
 VALID_BOOL_TYPES = {
     "bool": LegacyBooleanColumnParser(),
-    # new nullable type from pandas 1.0
-    "boolean": NullableBooleanColumnParser(),
 }
 
 VALID_INT_TYPES = {
     "int": LegacyIntegerColumnParser("int"),
     "int32": LegacyIntegerColumnParser("int32"),
     "int64": LegacyIntegerColumnParser("int64"),
-    # new nullable type from pandas 1.0
-    "Int64": NullableIntegerColumnParser("Int64"),
 }
 
 VALID_FLOAT_TYPES = {
@@ -189,10 +185,6 @@ VALID_DATETIME_TYPES = {
     "datetime64[ns]": DatetimeColumnParser(),
 }
 
-VALID_STRING_TYPES = {
-    "string": StringColumnParser(),
-}
-
 VALID_OBJECT_TYPES = {
     "object": ObjectColumnParser(),
     "str": LegacyStringColumnParser(),
@@ -201,11 +193,18 @@ VALID_OBJECT_TYPES = {
     "OrderedDict": OrderedDictColumnParser(),
 }
 
+# new nullable type from pandas 1.0
+VALID_NULLABLE_TYPES = {
+    "boolean": NullableBooleanColumnParser(),
+    "Int64": NullableIntegerColumnParser("Int64"),
+    "string": StringColumnParser(),
+}
+
 VALID_COLUMN_TYPES = {
     **VALID_BOOL_TYPES,
     **VALID_INT_TYPES,
     **VALID_FLOAT_TYPES,
     **VALID_DATETIME_TYPES,
-    **VALID_STRING_TYPES,
+    **VALID_NULLABLE_TYPES,
     **VALID_OBJECT_TYPES,
 }
