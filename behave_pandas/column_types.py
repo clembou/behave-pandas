@@ -2,6 +2,7 @@ import ast
 from collections import OrderedDict
 
 import numpy as np
+import pandas as pd
 
 
 class ColumnParser:
@@ -36,6 +37,19 @@ class LegacyStringColumnParser(ColumnParser):
             return cell
 
 
+class StringColumnParser(ColumnParser):
+    def __init__(self):
+        super().__init__("string")
+
+    def parse_value(self, cell):
+        if cell == "":
+            return pd.NA
+        elif cell == '""':
+            return ""
+        else:
+            return cell
+
+
 class FloatColumnParser(ColumnParser):
     VALID_FLOAT_DTYPES = {
         "float": np.float,
@@ -50,7 +64,7 @@ class FloatColumnParser(ColumnParser):
             return self.VALID_FLOAT_DTYPES[self.pandas_dtype_name](cell)
 
 
-class LegacyIntColumnParser(ColumnParser):
+class LegacyIntegerColumnParser(ColumnParser):
     VALID_PANDAS_DTYPES = {
         "int": np.int,
         "int32": np.int32,
@@ -64,7 +78,18 @@ class LegacyIntColumnParser(ColumnParser):
             return self.VALID_PANDAS_DTYPES[self.pandas_dtype_name](cell)
 
 
-class LegacyBoolColumnParser(ColumnParser):
+class NullableIntegerColumnParser(ColumnParser):
+    def __init__(self):
+        super().__init__("Int64")
+
+    def parse_value(self, cell):
+        if cell == "":
+            return pd.NA
+        else:
+            return np.int64(cell)
+
+
+class LegacyBooleanColumnParser(ColumnParser):
     def __init__(self):
         super().__init__("bool")
 
@@ -77,6 +102,21 @@ class LegacyBoolColumnParser(ColumnParser):
             raise ValueError("null values are not supported for bool columns.")
         else:
             raise ValueError("{} cannot be parsed as a bool".format(cell))
+
+
+class NullableBooleanColumnParser(ColumnParser):
+    def __init__(self):
+        super().__init__("boolean")
+
+    def parse_value(self, cell):
+        if cell.lower() == "true":
+            return True
+        elif cell.lower() == "false":
+            return False
+        elif cell == "":
+            return pd.NA
+        else:
+            raise ValueError("{} cannot be parsed as a boolean".format(cell))
 
 
 class ListColumnParser(ColumnParser):
@@ -126,12 +166,14 @@ class ObjectColumnParser(ColumnParser):
             return cell
 
 
-VALID_BOOL_TYPES = {"bool": LegacyBoolColumnParser()}
+VALID_BOOL_TYPES = {
+    "bool": LegacyBooleanColumnParser(),
+}
 
 VALID_INT_TYPES = {
-    "int": LegacyIntColumnParser("int"),
-    "int32": LegacyIntColumnParser("int32"),
-    "int64": LegacyIntColumnParser("int64"),
+    "int": LegacyIntegerColumnParser("int"),
+    "int32": LegacyIntegerColumnParser("int32"),
+    "int64": LegacyIntegerColumnParser("int64"),
 }
 
 VALID_FLOAT_TYPES = {
@@ -154,10 +196,18 @@ VALID_OBJECT_TYPES = {
     "OrderedDict": OrderedDictColumnParser(),
 }
 
+# new nullable type from pandas 1.0
+VALID_NULLABLE_TYPES = {
+    "boolean": NullableBooleanColumnParser(),
+    "Int64": NullableIntegerColumnParser(),
+    "string": StringColumnParser(),
+}
+
 VALID_COLUMN_TYPES = {
     **VALID_BOOL_TYPES,
     **VALID_INT_TYPES,
     **VALID_FLOAT_TYPES,
     **VALID_DATETIME_TYPES,
+    **VALID_NULLABLE_TYPES,
     **VALID_OBJECT_TYPES,
 }
