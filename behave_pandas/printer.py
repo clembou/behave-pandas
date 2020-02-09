@@ -1,10 +1,10 @@
 from tabulate import tabulate
 import pandas as pd
 
-from behave_pandas.dtypes import (
-    VALID_FLOAT_DTYPES,
-    VALID_DATETIME_DTYPES,
-    VALID_OBJECT_DTYPES,
+from behave_pandas.column_types import (
+    VALID_FLOAT_TYPES,
+    VALID_DATETIME_TYPES,
+    VALID_OBJECT_TYPES,
 )
 
 
@@ -23,12 +23,12 @@ def dataframe_to_table(df):
     cols_with_potential_nans = [
         col
         for col, dtype in to_format.dtypes.iteritems()
-        if str(dtype) in VALID_FLOAT_DTYPES.keys() or str(dtype) in VALID_OBJECT_DTYPES
+        if str(dtype) in VALID_FLOAT_TYPES.keys() or str(dtype) in VALID_OBJECT_TYPES
     ]
     cols_with_potential_nats = [
         col
         for col, dtype in to_format.dtypes.iteritems()
-        if str(dtype) in VALID_DATETIME_DTYPES.keys()
+        if str(dtype) in VALID_DATETIME_TYPES.keys()
     ]
 
     as_string = to_format.astype(str)

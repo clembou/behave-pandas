@@ -3,13 +3,13 @@ from collections import OrderedDict
 import pandas as pd
 import numpy as np
 import ast
-from behave_pandas.dtypes import (
-    VALID_BOOL_DTYPES,
-    VALID_DTYPES,
-    VALID_INT_DTYPES,
-    VALID_FLOAT_DTYPES,
-    VALID_DATETIME_DTYPES,
-    VALID_OBJECT_DTYPES,
+from behave_pandas.column_types import (
+    VALID_BOOL_TYPES,
+    VALID_COLUMN_TYPES,
+    VALID_INT_TYPES,
+    VALID_FLOAT_TYPES,
+    VALID_DATETIME_TYPES,
+    VALID_OBJECT_TYPES,
 )
 
 
@@ -56,7 +56,7 @@ def table_to_dataframe(
             "Max valid number for this table: {}".format(len(table.headings))
         )
 
-    dtypes = _get_dtypes(table.headings)
+    dtypes = _get_column_types(table.headings)
     columns = _get_column_index(table.rows[:column_levels], len(table.headings))
 
     data = [
@@ -95,48 +95,48 @@ def _flatten_index_names_if_needed(
     return index_cols
 
 
-def _get_dtypes(headings):
-    invalid_dtypes = [dtype for dtype in headings if dtype not in VALID_DTYPES]
+def _get_column_types(headings):
+    invalid_column_type = [column_type for column_type in headings if column_type not in VALID_COLUMN_TYPES]
 
-    if len(invalid_dtypes) > 0:
+    if len(invalid_column_type) > 0:
         raise TypeError(
-            "Invalid dtype(s) detected in the table headings: {}. "
+            "Invalid column type(s) detected in the table headings: {}. "
             "Valid values are:\n{} ".format(
-                ", ".join(invalid_dtypes), ", ".join(VALID_DTYPES)
+                ", ".join(invalid_column_type), ", ".join(VALID_COLUMN_TYPES)
             )
         )
 
-    return [VALID_DTYPES[dtype_name] for dtype_name in headings]
+    return [VALID_COLUMN_TYPES[column_type_name] for column_type_name in headings]
 
 
 def _convert_row_to_correct_type(row, dtypes):
     as_correct_type = []
 
     for col_index, cell in enumerate(row.cells):
-        if dtypes[col_index] in VALID_BOOL_DTYPES.values():
+        if dtypes[col_index] in VALID_BOOL_TYPES.values():
             as_correct_type.append(parse_bool(cell, col_index, dtypes[col_index]))
-        elif dtypes[col_index] in VALID_INT_DTYPES.values():
+        elif dtypes[col_index] in VALID_INT_TYPES.values():
             as_correct_type.append(parse_integer(cell, col_index, dtypes[col_index]))
-        elif dtypes[col_index] in VALID_FLOAT_DTYPES.values():
+        elif dtypes[col_index] in VALID_FLOAT_TYPES.values():
             as_correct_type.append(parse_dtype(cell, col_index, dtypes[col_index]))
-        elif dtypes[col_index] in VALID_DATETIME_DTYPES.values():
+        elif dtypes[col_index] in VALID_DATETIME_TYPES.values():
             as_correct_type.append(parse_dtype(cell, col_index, dtypes[col_index]))
         elif (
-            dtypes[col_index] in VALID_OBJECT_DTYPES.values()
-            and row.headings[col_index] == "dict"
+                dtypes[col_index] in VALID_OBJECT_TYPES.values()
+                and row.headings[col_index] == "dict"
         ):
             as_correct_type.append(parse_dict(cell))
         elif (
-            dtypes[col_index] in VALID_OBJECT_DTYPES.values()
-            and row.headings[col_index] == "list"
+                dtypes[col_index] in VALID_OBJECT_TYPES.values()
+                and row.headings[col_index] == "list"
         ):
             as_correct_type.append(parse_list(cell))
         elif (
-            dtypes[col_index] in VALID_OBJECT_DTYPES.values()
-            and row.headings[col_index] == "OrderedDict"
+                dtypes[col_index] in VALID_OBJECT_TYPES.values()
+                and row.headings[col_index] == "OrderedDict"
         ):
             as_correct_type.append(parse_ordered_dict(cell))
-        elif dtypes[col_index] in VALID_OBJECT_DTYPES.values():
+        elif dtypes[col_index] in VALID_OBJECT_TYPES.values():
             as_correct_type.append(parse_string(cell))
         else:
             raise Exception(
