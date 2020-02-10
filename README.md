@@ -19,6 +19,10 @@ pip install behave-pandas
 * Support converting data frames with multiple index levels either on columns or rows
 * Handle missing data for dtypes that support it.
 
+## Changelog
+
+[See the changelog here.](CHANGELOG.md)
+
 ## API
 
 The behave-pandas api is extremely simple, and consists in two functions:
