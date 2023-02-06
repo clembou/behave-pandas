@@ -42,7 +42,7 @@ def table_to_dataframe(
             "Max valid number for this table: {}".format(len(table.rows))
         )
 
-    if not isinstance(index_levels, int) or not (
+    if (not isinstance(index_levels, int)) or not (
         0 <= index_levels <= len(table.headings)
     ):
         raise ValueError(
@@ -63,7 +63,7 @@ def table_to_dataframe(
         bycol = [None for col in columns]
 
     series = [
-        pd.Series(col_data, dtype=column_type.pandas_dtype_name, name=col_name)
+        pd.Series(col_data, name=col_name).astype(column_type.pandas_dtype_name, errors='raise')
         for (col_name, col_data, column_type) in zip(columns, bycol, column_types)
     ]
 

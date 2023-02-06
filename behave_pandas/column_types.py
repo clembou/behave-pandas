@@ -52,7 +52,7 @@ class StringColumnParser(ColumnParser):
 
 class FloatColumnParser(ColumnParser):
     VALID_FLOAT_DTYPES = {
-        "float": float if not hasattr(np, 'float') else np.float,
+        "float": float,
         "float32": np.float32,
         "float64": np.float64,
     }
@@ -66,7 +66,7 @@ class FloatColumnParser(ColumnParser):
 
 class LegacyIntegerColumnParser(ColumnParser):
     VALID_PANDAS_DTYPES = {
-        "int": int if not hasattr(np, 'int') else np.int,
+        "int": int,
         "int32": np.int32,
         "int64": np.int64,
     }
