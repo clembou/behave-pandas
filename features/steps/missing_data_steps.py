@@ -13,8 +13,8 @@ use_step_matcher("parse")
 def step_impl(context):
     all_dtypes_df = pd.concat(
         [
-            pd.Series([True, None, True, False], dtype=np.bool),
-            pd.Series([None, None, None, None], dtype=np.bool),
+            pd.Series([True, None, True, False], dtype=bool),
+            pd.Series([None, None, None, None], dtype=bool),
         ],
         axis=1,
     )
@@ -25,7 +25,7 @@ def step_impl(context):
 def step_impl(context):
     all_dtypes_df = pd.concat(
         [
-            pd.Series([np.nan, 1, 2], dtype=np.int),
+            pd.Series([np.nan, 1, 2], dtype=int),
             pd.Series([np.nan, np.nan, np.nan], dtype=np.int),
         ],
         axis=1,
@@ -37,8 +37,8 @@ def step_impl(context):
 def step_impl(context):
     all_dtypes_df = pd.concat(
         [
-            pd.Series([np.nan, 4.1, 5.2], dtype=np.float),
-            pd.Series([np.nan, np.nan, np.nan], dtype=np.float),
+            pd.Series([np.nan, 4.1, 5.2], dtype=float),
+            pd.Series([np.nan, np.nan, np.nan], dtype=float),
         ],
         axis=1,
     )

@@ -14,7 +14,7 @@ use_step_matcher("parse")
 @then("it matches a manually created data frame with all valid boolean dtypes")
 def step_impl(context):
     all_dtypes_df = pd.concat(
-        [pd.Series([True, False, True, False], dtype=np.bool)], axis=1
+        [pd.Series([True, False, True, False], dtype=bool)], axis=1
     )
     pdt.assert_frame_equal(all_dtypes_df, context.parsed)
 
@@ -23,7 +23,7 @@ def step_impl(context):
 def step_impl(context):
     all_dtypes_df = pd.concat(
         [
-            pd.Series([0, 1, 2], dtype=np.int),
+            pd.Series([0, 1, 2], dtype=int),
             pd.Series([0, 10, 20], dtype=np.int32),
             pd.Series([0, 100, 200], dtype=np.int64),
         ],
@@ -36,7 +36,7 @@ def step_impl(context):
 def step_impl(context):
     all_dtypes_df = pd.concat(
         [
-            pd.Series([3.0, 4.1, 5.2], dtype=np.float),
+            pd.Series([3.0, 4.1, 5.2], dtype=float),
             pd.Series([3.0, 4.1, 5.2], dtype=np.float32),
             pd.Series([3.0, 4.1, 5.2], dtype=np.float64),
         ],
