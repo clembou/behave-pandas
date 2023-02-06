@@ -12,4 +12,6 @@ def step_impl(context):
 
 @step("printed using data_frame_to_table")
 def step_impl(context):
+    print(context.text)
+    print(context.result)
     context.result = dataframe_to_table(context.parsed)
