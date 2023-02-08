@@ -30,3 +30,6 @@ jobs:
       - name: Test with behave
         run: |
           behave
+      - name: Build Wheel
+        run: |
+          ./build.sh
