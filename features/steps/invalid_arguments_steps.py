@@ -17,7 +17,6 @@ def step_impl(context, index_levels, column_levels):
         index_levels = int(index_levels)
     except:
         pass
-
     try:
         context.parsed = table_to_dataframe(
             context.input, column_levels=column_levels, index_levels=index_levels

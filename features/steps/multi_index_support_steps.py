@@ -19,7 +19,7 @@ def get_expected_table():
     expected_df = pd.DataFrame(
         data={
             "index_col": pd.Series(["egg", "spam", "bacon"], dtype=str),
-            "float_col": pd.Series([3.0, 4.1, 5.2], dtype=np.float),
+            "float_col": pd.Series([3.0, 4.1, 5.2], dtype=float),
             "str_col": pd.Series(
                 ["silly walks", "spanish inquisition", "dead parrot"], dtype=str
             ),

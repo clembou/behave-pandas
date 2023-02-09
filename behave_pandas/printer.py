@@ -23,18 +23,18 @@ def dataframe_to_table(df):
 
     cols_with_potential_nans = [
         col
-        for col, dtype in to_format.dtypes.iteritems()
+        for col, dtype in to_format.dtypes.items()
         if str(dtype) in VALID_FLOAT_TYPES.keys() or str(dtype) in VALID_OBJECT_TYPES
     ]
     cols_with_potential_nats = [
         col
-        for col, dtype in to_format.dtypes.iteritems()
+        for col, dtype in to_format.dtypes.items()
         if str(dtype) in VALID_DATETIME_TYPES.keys()
     ]
 
     cols_with_potential_null_types = [
         col
-        for col, dtype in to_format.dtypes.iteritems()
+        for col, dtype in to_format.dtypes.items()
         if str(dtype) in VALID_NULLABLE_TYPES.keys()
     ]
 
