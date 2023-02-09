@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - add explicit support for python 3.8, 3.9, 1.10 (#22)
 - drop support for python 3.5 (#22)
 - switch to Github Actions instead of Travis for CI (#22)
-- add support for pandas 1.5 and numpy 1.25 (#20) - thanks @lkacenja!
+- add support for pandas 1.5 and numpy 1.24 (#20) - thanks @lkacenja!
 
 ## [0.4.0] - 2020-02-10
 ### Changed
