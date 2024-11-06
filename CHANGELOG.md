@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Changed
+- Dropped support for Python 3.6 and 3.7
+- Added support for Python 3.11, 3.12, and 3.13
 
 ## [0.5.0] - 2023-02-09
 ### Changed
