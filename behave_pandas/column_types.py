@@ -166,6 +166,39 @@ class ObjectColumnParser(ColumnParser):
             return cell
 
 
+class IntervalColumnParser(ColumnParser):
+    def __init__(self):
+        super().__init__("interval")
+
+    def parse_value(self, cell):
+        if cell == "":
+            return pd.NA
+        else:
+            return pd.Interval(cell)
+
+
+class PeriodColumnParser(ColumnParser):
+    def __init__(self):
+        super().__init__("period")
+
+    def parse_value(self, cell):
+        if cell == "":
+            return pd.NA
+        else:
+            return pd.Period(cell)
+
+
+class CategoricalColumnParser(ColumnParser):
+    def __init__(self):
+        super().__init__("category")
+
+    def parse_value(self, cell):
+        if cell == "":
+            return pd.NA
+        else:
+            return cell
+
+
 VALID_BOOL_TYPES = {
     "bool": LegacyBooleanColumnParser(),
 }
@@ -201,6 +234,9 @@ VALID_NULLABLE_TYPES = {
     "boolean": NullableBooleanColumnParser(),
     "Int64": NullableIntegerColumnParser(),
     "string": StringColumnParser(),
+    "interval": IntervalColumnParser(),
+    "period": PeriodColumnParser(),
+    "category": CategoricalColumnParser(),
 }
 
 VALID_COLUMN_TYPES = {

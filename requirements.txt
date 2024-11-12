@@ -4,3 +4,4 @@
 black; python_version >= '3.6.0'
 wheel
 build
+pandas>=2.0.1
